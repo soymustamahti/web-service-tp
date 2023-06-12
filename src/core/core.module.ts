@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
+import { ActorsModule } from '../features/actors/actors.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import * as path from 'path';
       entities: [path.join(__dirname, '../features/**/*.entity{.ts,.js}')],
       synchronize: true,
     }),
+    ActorsModule,
   ],
 })
 export class CoreModule {}

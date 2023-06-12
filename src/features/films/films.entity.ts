@@ -8,9 +8,10 @@ import {
 } from 'typeorm';
 import { GenresEntity } from '../genres/genres.entity';
 import { ActorsEntity } from '../actors/actors.entity';
+import { Film } from '../../shared/interfaces/films';
 
 @Entity('films')
-export class FilmsEntity {
+export class FilmsEntity implements Film {
   @PrimaryGeneratedColumn()
   id: number;
 

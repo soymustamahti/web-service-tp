@@ -1,8 +1,9 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FilmsEntity } from '../films/films.entity';
+import { Actor } from '../../shared/interfaces/actors';
 
 @Entity('actors')
-export class ActorsEntity {
+export class ActorsEntity implements Actor {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,7 +17,7 @@ export class ActorsEntity {
   date_of_birth: Date;
 
   @Column({ nullable: true })
-  date_of_death: Date;
+  date_of_death?: Date;
 
   @ManyToMany(() => FilmsEntity, (film) => film.actors)
   films: FilmsEntity[];
