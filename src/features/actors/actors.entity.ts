@@ -1,9 +1,9 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FilmsEntity } from '../films/films.entity';
-import { Actor } from '../../shared/interfaces/actors';
+import { Actors } from '../../shared/interfaces/actors';
 
 @Entity('actors')
-export class ActorsEntity implements Actor {
+export class ActorsEntity implements Actors {
   @PrimaryGeneratedColumn()
   id: number;
 

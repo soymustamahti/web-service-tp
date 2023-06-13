@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FilmsEntity } from '../films/films.entity';
-import { Genre } from '../../shared/interfaces/genres';
+import { Genres } from '../../shared/interfaces/genres';
 
 @Entity('genres')
-export class GenresEntity implements Genre {
+export class GenresEntity implements Genres {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,10 +1,10 @@
-import { Actor } from './actors';
+import { Actors } from './actors';
 
-export interface Film {
+export interface Films {
   id: number;
   name: string;
   synopsis: string;
   release_year?: number;
   genre: any;
-  actors: Actor[];
+  actors: Actors[];
 }

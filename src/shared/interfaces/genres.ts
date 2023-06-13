@@ -1,7 +1,7 @@
-import { Film } from './films';
+import { Films } from './films';
 
-export interface Genre {
+export interface Genres {
   id: number;
   name: string;
-  films: Film[];
+  films: Films[];
 }

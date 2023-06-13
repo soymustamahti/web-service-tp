@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { ActorsModule } from '../features/actors/actors.module';
+import { FilmsModule } from '../features/films/films.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ActorsModule } from '../features/actors/actors.module';
       synchronize: true,
     }),
     ActorsModule,
+    FilmsModule,
   ],
 })
 export class CoreModule {}
