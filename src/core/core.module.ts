@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { ActorsModule } from '../features/actors/actors.module';
 import { FilmsModule } from '../features/films/films.module';
 import { GenresModule } from '../features/genres/genres.module';
+import { ApiKeyMiddleware } from '../shared/middleware/apikey.middleware';
 
 @Module({
   imports: [
@@ -18,4 +19,8 @@ import { GenresModule } from '../features/genres/genres.module';
     GenresModule,
   ],
 })
-export class CoreModule {}
+export class CoreModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ApiKeyMiddleware).forRoutes('*');
+  }
+}
