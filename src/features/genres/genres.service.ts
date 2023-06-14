@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { GenresEntity } from './genres.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,9 +20,10 @@ export class GenresService {
   }
 
   async deleteGenre(id: number): Promise<any> {
-    const genreToDelete = await this.genresRepository.findOneOrFail({
+    const genreToDelete = await this.genresRepository.findOne({
       where: { id },
     });
+    if (!genreToDelete) throw new NotFoundException('Genre not found');
     await this.genresRepository.delete(genreToDelete);
     return genreToDelete;
   }

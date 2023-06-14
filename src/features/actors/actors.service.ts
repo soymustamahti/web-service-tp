@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ActorsEntity } from './actors.entity';
@@ -16,7 +16,9 @@ export class ActorsService {
   }
 
   async getActorById(id: number): Promise<ActorsEntity | undefined> {
-    return this.actorsRepository.findOneBy({ id });
+    const actor = await this.actorsRepository.findOneBy({ id });
+    if (!actor) throw new NotFoundException('Actor not found');
+    return actor;
   }
 
   async createActor(createActorDto: CreateActorDto): Promise<ActorsEntity> {
