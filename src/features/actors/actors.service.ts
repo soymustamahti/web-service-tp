@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ActorsEntity } from './actors.entity';
-import { CreateActorDto, UpdateActorDto } from './actors.dto';
+import { CreateActorDto, UpdateActorDto } from './dto/actors.dto';
 
 @Injectable()
 export class ActorsService {

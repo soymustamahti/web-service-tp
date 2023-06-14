@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilmsEntity } from './films.entity';
-import { CreateFilmDto, UpdateFilmDto } from './films.dto';
+import { CreateFilmDto, UpdateFilmDto } from './dto/films.dto';
 import { ActorsEntity } from '../actors/actors.entity';
 import { GenresEntity } from '../genres/genres.entity';
 import { FilmsRepository } from './films.repository';

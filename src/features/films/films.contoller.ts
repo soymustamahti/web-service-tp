@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { FilmsService } from './films.service';
 import { FilmsEntity } from './films.entity';
-import { CreateFilmDto, UpdateFilmDto } from './films.dto';
+import { CreateFilmDto, UpdateFilmDto } from './dto/films.dto';
 
 @Controller('film')
 export class FilmsController {
