@@ -24,7 +24,6 @@ export class GenresService {
       where: { id },
     });
     if (!genreToDelete) throw new NotFoundException('Genre not found');
-    await this.genresRepository.delete(genreToDelete);
-    return genreToDelete;
+    return await this.genresRepository.remove(genreToDelete);
   }
 }

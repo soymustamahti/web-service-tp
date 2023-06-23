@@ -6,14 +6,20 @@ import {
   Param,
   Post,
   Put,
+  Res,
 } from '@nestjs/common';
 import { FilmsService } from './films.service';
 import { FilmsEntity } from './films.entity';
-import { CreateFilmDto, UpdateFilmDto } from './dto/films.dto';
+import { FilmDto } from './dto/films.dto';
+import { EtagService } from '../../shared/middleware/etag.service';
+import { Response } from 'express';
 
 @Controller('film')
 export class FilmsController {
-  constructor(private readonly filmsService: FilmsService) {}
+  constructor(
+    private readonly filmsService: FilmsService,
+    private readonly etagService: EtagService,
+  ) {}
 
   @Get()
   getAllFilms(): Promise<FilmsEntity[]> {
@@ -21,19 +27,26 @@ export class FilmsController {
   }
 
   @Get(':id')
-  getFilmById(@Param('id') id: number): Promise<FilmsEntity | undefined> {
-    return this.filmsService.getFilmById(id);
+  async getFilmById(
+    @Param('id') id: number,
+    @Res() res: Response,
+  ): Promise<void> {
+    const film = await this.filmsService.getFilmById(id);
+    res.set({
+      ETag: this.etagService.generateEtag(film),
+    });
+    res.send(film);
   }
 
   @Post()
-  createFilm(@Body() createFilmDto: CreateFilmDto): Promise<FilmsEntity> {
+  createFilm(@Body() createFilmDto: FilmDto): Promise<FilmsEntity> {
     return this.filmsService.createFilm(createFilmDto);
   }
 
   @Put(':id')
   updateFilm(
     @Param('id') id: number,
-    @Body() updateFilmDto: UpdateFilmDto,
+    @Body() updateFilmDto: FilmDto,
   ): Promise<FilmsEntity | null> {
     return this.filmsService.updateFilm(id, updateFilmDto);
   }

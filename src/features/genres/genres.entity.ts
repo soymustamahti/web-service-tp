@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { FilmsEntity } from '../films/films.entity';
 import { Genres } from '../../shared/interfaces/genres';
 
@@ -12,4 +19,10 @@ export class GenresEntity implements Genres {
 
   @OneToMany(() => FilmsEntity, (film) => film.genre)
   films: FilmsEntity[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

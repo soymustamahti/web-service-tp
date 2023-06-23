@@ -29,13 +29,10 @@ export class ActorsService {
   async updateActor(
     id: number,
     updateActorDto: UpdateActorDto,
-  ): Promise<ActorsEntity | null> {
+  ): Promise<ActorsEntity> {
     const actor = await this.getActorById(id);
-    if (actor) {
-      Object.assign(actor, updateActorDto);
-      return this.actorsRepository.save(actor);
-    }
-    return null;
+    const updatedActor = this.actorsRepository.merge(actor, updateActorDto);
+    return this.actorsRepository.save(updatedActor);
   }
 
   async deleteActor(id: number): Promise<ActorsEntity | null> {

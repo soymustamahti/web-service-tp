@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilmsEntity } from './films.entity';
-import { CreateFilmDto, UpdateFilmDto } from './dto/films.dto';
+import { FilmDto } from './dto/films.dto';
 import { ActorsEntity } from '../actors/actors.entity';
 import { GenresEntity } from '../genres/genres.entity';
 import { FilmsRepository } from './films.repository';
@@ -30,7 +30,7 @@ export class FilmsService {
     return films;
   }
 
-  async createFilm(createFilmDto: CreateFilmDto): Promise<any> {
+  async createFilm(createFilmDto: FilmDto): Promise<any> {
     try {
       const newFilm = await this.filmsRepository.save(createFilmDto);
       await this.filmsRepository.associateFilmToActors(
@@ -52,7 +52,7 @@ export class FilmsService {
     }
   }
 
-  async updateFilm(id: number, updateFilmDto: UpdateFilmDto): Promise<any> {
+  async updateFilm(id: number, updateFilmDto: FilmDto): Promise<any> {
     const filmToUpdate = await this.filmsRepository.findOneOrFail({
       where: { id },
       relations: ['genre', 'actors'],
@@ -74,8 +74,8 @@ export class FilmsService {
       filmToUpdate.genre = genre;
       delete updateFilmDto.genre_id;
     }
-    Object.assign(filmToUpdate, updateFilmDto);
-    return await this.filmsRepository.save(filmToUpdate);
+    const updatedFilm = this.filmsRepository.merge(filmToUpdate, updateFilmDto);
+    return await this.filmsRepository.save(updatedFilm);
   }
 
   async deleteFilm(id: number): Promise<FilmsEntity | null> {

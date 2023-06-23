@@ -6,14 +6,20 @@ import {
   Param,
   Post,
   Put,
+  Res,
 } from '@nestjs/common';
 import { ActorsService } from './actors.service';
 import { CreateActorDto, UpdateActorDto } from './dto/actors.dto';
 import { ActorsEntity } from './actors.entity';
+import { Response } from 'express';
+import { EtagService } from '../../shared/middleware/etag.service';
 
 @Controller('actor')
 export class ActorsController {
-  constructor(private readonly actorsService: ActorsService) {}
+  constructor(
+    private readonly actorsService: ActorsService,
+    private readonly etagService: EtagService,
+  ) {}
 
   @Get()
   getAllActors(): Promise<ActorsEntity[]> {
@@ -21,8 +27,15 @@ export class ActorsController {
   }
 
   @Get(':id')
-  getActorById(@Param('id') id: number): Promise<ActorsEntity | undefined> {
-    return this.actorsService.getActorById(id);
+  async getActorById(
+    @Param('id') id: number,
+    @Res() res: Response,
+  ): Promise<void> {
+    const autor = await this.actorsService.getActorById(id);
+    res.set({
+      ETag: this.etagService.generateEtag(autor),
+    });
+    res.send(autor);
   }
 
   @Post()

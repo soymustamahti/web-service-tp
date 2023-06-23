@@ -1,10 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { GenresEntity } from '../genres/genres.entity';
 import { ActorsEntity } from '../actors/actors.entity';
@@ -34,4 +36,10 @@ export class FilmsEntity implements Films {
     inverseJoinColumn: { name: 'actor_id', referencedColumnName: 'id' },
   })
   actors: ActorsEntity[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
